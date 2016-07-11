@@ -10,13 +10,29 @@
 
 @interface ViewController ()
 
+@property (nonatomic, strong) WKWebView *webView;
+
 @end
 
 @implementation ViewController
 
+- (WKWebView *)webView
+{
+    if (!_webView) {
+        _webView = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        
+        NSURL *URL = [NSURL URLWithString:@"https://www.applovin.com"];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        [_webView loadRequest:request];
+    }
+    return _webView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    [self.view addSubview:self.webView];
 }
 
 - (void)didReceiveMemoryWarning {
