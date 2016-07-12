@@ -64,12 +64,21 @@
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    NSLog(@"navigationAction description : %@", [navigationAction description]);
-    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
-        NSLog(@"OH YEAH THIS IS A LINK");
-        [self.webView loadRequest:navigationAction.request];
+    switch (navigationAction.navigationType) {
+        case WKNavigationTypeLinkActivated:
+            decisionHandler(WKNavigationActionPolicyAllow);
+            NSLog(@"OH YEAH THIS IS A LINK");
+            [self.webView loadRequest:navigationAction.request];
+            break;
+            
+        case WKNavigationTypeOther:
+            decisionHandler(WKNavigationActionPolicyAllow);
+            NSLog(@"Navigation is taking place for some OTHER reason...");
+            
+        default:
+            break;
     }
-    decisionHandler(WKNavigationActionPolicyAllow);
+    NSLog(@"navigationAction description : %@", [navigationAction description]);
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
