@@ -305,6 +305,7 @@
 				36F22BBE1D3410A70070F168 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
