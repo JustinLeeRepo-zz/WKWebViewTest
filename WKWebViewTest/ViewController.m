@@ -30,7 +30,9 @@
         
         NSURL *URL = [NSURL URLWithString:@"https://www.applovin.com"];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        [_webView loadRequest:request];
+//        [_webView loadRequest:request];
+        NSString *html = @"<html><head><title></title></head><body><h1>YOYO THIS IS A TEST</h1><p>THIS IS A PARAGRAPH TESTER</p><p>MY SECOND PARAGRAPH TESTER</p><h6><p>THIRD PARAGRAPH TESTER WITH SMALL HEADING</p></h6><a href='http://www.google.com'>YO THIS IS A LINK</a><a href='http://www.dogbreedinfo.com/pomchi.htm'><img src='http://www.dogbreedinfo.com/images29/PomchiPomeranianChihuahuaMixBreedDogCooper2YearsOld.jpg'/></a></body></html>";
+        [_webView loadHTMLString:html baseURL:nil];
         
     }
     return _webView;
@@ -63,6 +65,10 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     NSLog(@"navigationAction description : %@", [navigationAction description]);
+    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        NSLog(@"OH YEAH THIS IS A LINK");
+        [self.webView loadRequest:navigationAction.request];
+    }
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
