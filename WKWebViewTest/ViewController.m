@@ -28,11 +28,27 @@
         CGRect rect = CGRectMake(0, 0, screen.size.width, screen.size.height);
         _webView = [[WKWebView alloc] initWithFrame:rect configuration:self.configuration];
         
+        
+        //wkwebview via load NSURLRequest
+        /*
         NSURL *URL = [NSURL URLWithString:@"https://www.applovin.com"];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-//        [_webView loadRequest:request];
+        [_webView loadRequest:request];
+        */
+        
+        //wkwebview via load literal html string
+        /*
         NSString *html = @"<html><head><title></title></head><body><h1>YOYO THIS IS A TEST</h1><p>THIS IS A PARAGRAPH TESTER</p><p>MY SECOND PARAGRAPH TESTER</p><h6><p>THIRD PARAGRAPH TESTER WITH SMALL HEADING</p></h6><a href='http://www.google.com'>YO THIS IS A LINK</a><a href='http://www.dogbreedinfo.com/pomchi.htm'><img src='http://www.dogbreedinfo.com/images29/PomchiPomeranianChihuahuaMixBreedDogCooper2YearsOld.jpg'/></a></body></html>";
         [_webView loadHTMLString:html baseURL:nil];
+        */
+        
+        //wkwebview via load html file
+        NSString *htmlPath = [[NSBundle mainBundle] pathForResource: @"pom.html" ofType: @""];
+        NSURL *fileURL = [NSURL fileURLWithPath: htmlPath];
+        
+        NSString *readAccessPath = [htmlPath stringByDeletingLastPathComponent];
+        NSURL *readAccessURL = [NSURL fileURLWithPath: readAccessPath];
+        [_webView loadFileURL: fileURL allowingReadAccessToURL: readAccessURL];
         
     }
     return _webView;
